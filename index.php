@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Proyecto CRUD</title>
+<script type="text/JavaScript" src="js/sha512.js"></script>
+<script type="text/JavaScript" src="js/forms.js"></script>
 <link media="all" href="css/style.css" rel="stylesheet" type="text/css"></link>
 <script type="text/JavaScript">
 function borra_cliente(id) {
@@ -27,14 +29,7 @@ ASIR project!
 </div>
 <div id="content">
 <?php
-$default = 'lista'; //nuestra página por defecto.
-$accion = isset($_GET['accion']) ? $_GET['accion'] : $default; //obtenemos la página que queremos mostrar.
-$accion = basename($accion); //nos quedamos con el nombre.
-if (!file_exists($accion . '.php')) { //comprobamos que el fichero exista
-$accion = $default; //si no existe mostramos la página por defecto
-//NOTA: Podíamos mostrar la página 404
-}
-include( $accion . '.php'); //y ahora mostramos la pagina llamada
+include('controlador.php'); //y ahora mostramos la pagina llamada
 ?>
 </div>
 <div id="footer">
