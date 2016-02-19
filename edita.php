@@ -71,8 +71,8 @@ if($stmt=$conexion->prepare($query)){
             <tr>
             <td></td>
             <td>
-    <input type='submit' value='Guardar' />
-    <a href='index.php'>Volver a Inicio</a>
+<input type = "button" value = "Login" onclick = "formhash(this.form, this.form.password);" /> 
+<a href='index.php'>Volver a Inicio</a>
         </td>
     </tr>
     </table>
