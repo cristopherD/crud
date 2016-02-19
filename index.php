@@ -1,79 +1,50 @@
+<!DOCTYPE html>
 <html>
-    <head>
-         <meta charset="UTF-8">
-        <title>Proyecto CRUD</title>
-        <script type="text/JavaScript">
+<head>
+<meta charset="UTF-8">
+<title>Proyecto CRUD</title>
+<link media="all" href="css/style.css" rel="stylesheet" type="text/css"></link>
+<script type="text/JavaScript">
 function borra_cliente(id) {
-var answer = confirm('¿Estás seguro que deseas borrar el cliente?');
+    var answer = confirm('¿Estás seguro que deseas borrar el cliente?');
 if (answer) {
 // si el usuario hace click en ok,
-// se ejecutar borrar.php
+// se ejecutar borra.php
 window.location = 'borra.php?id=' + id;
 }
 }
 </script>
-    </head>
-    <body>
-<h1>Listado de Clientes</h1>
+</head>
+<body>
+<div id="wrapper">
+<div id="header">
+<div id="logo">
+<img src="img/logo_blanco_0.png"></img>
+</div>
+<div id="title">
+ASIR project!
+</div>
+</div>
+<div id="content">
 <?php
-//incluir la conexioin a la base de datos
-include 'conexion.php';
-$action = isset($_GET['action']) ? $_GET['action'] : "";
-// si viene de borra.php
-if ($action == 'deleted') {
-echo "<div>El registro cliente ha sido borrado. =))</div>";
+$default = 'lista'; //nuestra página por defecto.
+$accion = isset($_GET['accion']) ? $_GET['accion'] : $default; //obtenemos la página que queremos mostrar.
+$accion = basename($accion); //nos quedamos con el nombre.
+if (!file_exists($accion . '.php')) { //comprobamos que el fichero exista
+$accion = $default; //si no existe mostramos la página por defecto
+//NOTA: Podíamos mostrar la página 404
 }
-//Elegir los datos que deseamos recuperar de la tabla
-$query = "SELECT id, nif, nombre, apellido1, apellido2, email, telefono, usuario "
-        ."FROM clientes "
-        ."ORDER BY apellido1, apellido2, nombre";
-if($stmt = $conexion->prepare($query)){
-    if(!$stmt->execute()){
-        die('Eror de ejecucion de la consulta. =('.$conexion->error);
-    }
-//recoger los datos
-    $stmt->bind_result($id,$nif,$nombre,$apellido1,$apellido2,$email,$telefono,$usuario);
-//Enlace a alta de cliente
-    echo "<div>";
-    echo "<a href='alta.php'>Alta cliente</a>";
-    echo "</div>";
-//cabecera de los datos mostrados
-    echo "<table>"; //start tabla
-//creando nuestra cabecera de la tabla
-    echo "<tr>";
-    echo "<th>NIF</th>";
-echo "<th>Nombre</th>";
-echo "<th>Apellido 1</th>";
-echo "<th>Apellido 2</th>";
-echo "<th>email</th>";
-echo "<th>telefono</th>";
-echo "<th>usuario</th>";
-echo "</tr>";
-//recorrido por el resultado de la consulta
-while($stmt->fetch()){
-    echo "<tr>";
-    echo "<td>$nif</td>";
-    echo "<td>$nombre</td>";
-    echo "<td>$apellido1</td>";
-    echo "<td>$apellido2</td>";
-    echo "<td>$email</td>";
-    echo "<td>$telefono</td>";
-    echo "<td>$usuario</td>";
-    echo "<td>";
-//Este enlace es para modificar el registro
-    echo "<a href='edita.php?nif={$id}'>Edita</a>";
-    echo "/";
-//Este enlace es para borrar el registro,
-    echo "<a href='javascript:borra_cliente(\"$id\")'>Elimina</a>";
-    echo "</td>";
-    echo "</tr>\n";
-}
-// Fin de la tabla
-echo "</table>";
-$stmt->close();
-}else{
-    die('Imposible preparar la consulta=(.'.$conexion->error);
-}
+include( $accion . '.php'); //y ahora mostramos la pagina llamada
 ?>
-    </body>
+</div>
+<div id="footer">
+<div id="subtitle">
+<a href="http://www.ausiasmarch.net/asir"> CFGS Administración de
+Sistemas Informáticos y Redes </a>
+</div>
+</div>
+</div>
+</body>
 </html>
+
+
