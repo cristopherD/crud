@@ -1,15 +1,28 @@
-<?php
-
-/* 
- *Este fichero tiene como mision mostrar los registros almacenados en la tabla
- * lo que vamos hacer es conectarnos a la base de datos, ejecutar un select y mostrar los
- * campos deseados
- */
-?>
+<html>
+    <head>
+         <meta charset="UTF-8">
+        <title>Proyecto CRUD</title>
+        <script type="text/JavaScript">
+function borra_cliente(id) {
+var answer = confirm('¿Estás seguro que deseas borrar el cliente?');
+if (answer) {
+// si el usuario hace click en ok,
+// se ejecutar borrar.php
+window.location = 'borra.php?id=' + id;
+}
+}
+</script>
+    </head>
+    <body>
 <h1>Listado de Clientes</h1>
 <?php
 //incluir la conexioin a la base de datos
 include 'conexion.php';
+$action = isset($_GET['action']) ? $_GET['action'] : "";
+// si viene de borra.php
+if ($action == 'deleted') {
+echo "<div>El registro cliente ha sido borrado. =))</div>";
+}
 //Elegir los datos que deseamos recuperar de la tabla
 $query = "SELECT id, nif, nombre, apellido1, apellido2, email, telefono, usuario "
         ."FROM clientes "
@@ -62,3 +75,5 @@ $stmt->close();
     die('Imposible preparar la consulta=(.'.$conexion->error);
 }
 ?>
+    </body>
+</html>
