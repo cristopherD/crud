@@ -9,6 +9,8 @@ if (isset($usuario, $password)) {
 if (login($usuario, $password, $conexion) == true) {
 // Éxito
 $accion = "lista"; //acción por defecto
+echo "<div class=\"logout\"> <a href=\"index.php?accion=logout\"> logout
+{$_SESSION['usuario']} </a></div>";
 } else {
 // Login error: no coinciden usuario y password
 $accion = "login";
@@ -20,8 +22,14 @@ $accion = "login";
 } else { //estás autorizado
 $accion = basename(filter_input(INPUT_GET, 'accion', $filter =
 FILTER_SANITIZE_STRING));
+switch ($accion){
+case 'login': $accion = $default_action;break;
+case 'logout':logout();$accion='login';
+}
+echo "<div class=\"logout\"> <a href=\"index.php?accion=logout\"> logout
+{$_SESSION['usuario']} </a></div>";
 if (!isset($accion)) {
-$accion = '$default_action'; //acción por defecto $default_action = "lista"
+$accion = 'lista'; //acción por defecto $default_action = "lista"
 }
 if (!file_exists($accion . '.php')) { //comprobamos que el fichero exista
 $accion = 'lista'; //si no existe mostramos la página por defecto
